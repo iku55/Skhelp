@@ -1,0 +1,31 @@
+on load:
+	set {skhelpgui.ver} to "beta2"
+	broadcast "&askhelpGUI%{skhelpgui.ver}%は正常に読み込まれました"
+command /skhelp [<text>]:
+	trigger:
+		if arg 1 is "reload":
+			command "/skript reload skhelpgui"
+			message "&a再読み込みしました"
+		else if arg 1 is not set:
+			message "&6SkriptHelpGUI-infoPage"
+			message "&6SkriptHelpGUI %{skhelp.ver}%"
+			message "&6By iku55"
+			message "<ttp:クリックでリンクに飛びます(Discord)><url:https://discord.gg/34nA3r5>&6こちらからダウンロードできます<reset>"
+			message "&6Skript"
+			message "&a<ttp:イベントを表示><cmd:/skhelp events>&aイベント<reset>"
+			message "&6このページはこのSkriptのヘルプです"
+		else if arg 1 is "info":
+			message "&6SkriptHelpGUI-infoPage"
+			message "&6SkriptHelpGUI %{skhelp.ver}%"
+			message "&6By iku55"
+			message "<ttp:クリックでリンクに飛びます(Discord)><url:https://discord.gg/34nA3r5>&6こちらからダウンロードできます<reset>"
+			message "&6Skript"
+			message "&a<ttp:イベントを表示><cmd:/skhelp events>&aイベント<reset>"
+			message "&6このページはこのSkriptのヘルプです"
+		else if arg 1 is "events":
+            open chest with 6 rows named "&aイベント" to player
+            wait a tick
+            format slot 0 of player with gold block named "&6At Time" with lore "&bat time [in worlds]%nl%&7バージョン1.3.4から%nl%&eAn event that occurs at a given minecraft time in every world or only in specific worlds.%nl%&cat 18:00%nl%&cat 7am in ""world"""
+		else:
+			message "&6SkriptHelp-Error404"
+			message "&c%arg 1%&cが見つかりません。まだ追加されていないなどが考えられます。"
