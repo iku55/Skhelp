@@ -1,163 +1,239 @@
-on load:
-	set {skhelp.ver} to "beta4"
-	broadcast "&askhelp%{skhelp.ver}%は正常に読み込まれました"
-command /skhelp [<text>]:
+# skdocs 1.0
+# by iku55
+# 
+# skript 2.3.7以降で動作します
+# skript 2.3.6以下のスクリプトはこちらからダウンロードしてください:https://github.com/iku55/Skhelp/releases/
+options:
+	# skdocsのバージョンです。変更しないでください。
+	version: 1.0
+	# デバッグログを表示するかの設定です。デフォルト:false
+	debug_logging: false
+	# apiのURLです。デフォルト:http://iku55.starfree.jp/skdocs/api/
+	api_url: http://iku55.starfree.jp/skdocs/api/
+on join:
+	player is op
+	if {skdocs::update::version} is not "{@version}":
+		send formatted "&7[&askdocs&7] &a新しいバージョン%{skdocs::update::version}%があります！(リンク:<url:%{skdocs::update::link}%>%{skdocs::update::link}%<reset>&a)"
+command /skdocs [<text>] [<text>]:
+	aliases: /skhelp
 	trigger:
-		if executor is console:
-			message "&cコンソールからこのコマンドを実行することはできません。"
-			stop
-		if arg 1 is "reload":
-			command "/skript reload skhelp"
-			message "&a再読み込みしました"
-		else if arg 1 is not set:
-			message "&6SkriptHelp-1Page"
-			message "&6SkriptHelp %{skhelp.ver}%"
-			message "&6By iku55"
-			message "<ttp:クリックでリンクに飛びます(Discord)><url:https://discord.gg/34nA3r5>&6こちらからダウンロードできます<reset>"
-			message "&aイベント"
-			message "&6このページはこのSkriptのヘルプです"
-			message "&6次のページに行くには<ttp:ヘルプ2ページ目を表示><cmd:/skhelp 2>/skhelp 2<reset>&6と入力してください"
-		else if arg 1 is "1":
-			message "&6SkriptHelp-1Page"
-			message "&6SkriptHelp %{skhelp.ver}%"
-			message "&6By iku55"
-			message "<ttp:クリックでリンクに飛びます(Discord)><url:https://discord.gg/34nA3r5>&6こちらからダウンロードできます<reset>"
-			message "&6Skript"
-			message "&6このページはこのSkriptのヘルプです"
-			message "&6次のページに行くには<ttp:ヘルプ2ページ目を表示><cmd:/skhelp 2>/skhelp 2<reset>&6と入力してください"
-		else if arg 1 is "2":
-			message "&6前のページに行くには<ttp:ヘルプ1ページ目を表示><cmd:/skhelp 1>/skhelp 1<reset>&6と入力してください"
-			message "&6"
-			message "<ttp:At Timeのヘルプを見る><cmd:/skhelp at-time>&aAt Time<reset>"
-			message "<ttp:On AoE Cloud Effectのヘルプを見る><cmd:/skhelp on-aoe-cloud-effect>&aOn AoE Cloud Effect<reset>"
-			message "<ttp:On Bed Enterのヘルプを見る><cmd:/skhelp on-bed-enter>&aOn Bed Enter<reset>"
-			message "<ttp:On Bed Leaveのヘルプを見る><cmd:/skhelp on-bed-leave>&aOn Bed Leave<reset>"
-			message "<ttp:On Block Damageのヘルプを見る><cmd:/skhelp on-block-damage>&aOn Block Damage<reset>"
-			message "<ttp:On Block Growthのヘルプを見る><cmd:/skhelp on-block-growth>&aOn Block Growth<reset>"
-			message "<ttp:On Book Editのヘルプを見る><cmd:/skhelp on-book-edit>&aOn Book Edit<reset>"
-			message "&6次のページに行くには<ttp:ヘルプ3ページ目を表示><cmd:/skhelp 3>/skhelp 3<reset>&6と入力してください"
-		else if arg 1 is "3":
-			message "&6前のページに行くには<ttp:ヘルプ2ページ目を表示><cmd:/skhelp 2>/skhelp 2<reset>&6と入力してください"
-			message "<ttp:On Book Signのヘルプを見る><cmd:/skhelp on-book-sign>&aOn Book Sign<reset>"
-			message "<ttp:On Breakのヘルプを見る><cmd:/skhelp on-break>&aOn Break<reset>"
-			message "<ttp:On Bucket Emptyのヘルプを見る><cmd:/skhelp on-bucket-empty>&aOn Bucket Empty<reset>"
-			message "<ttp:On Bucket fillのヘルプを見る><cmd:/skhelp on-bucket-fill>&aOn Bucket fill<reset>"
-			message "<ttp:On Burnのヘルプを見る><cmd:/skhelp on-burn>&aOn Burn<reset>"
-			message "<ttp:On Can Build Checkのヘルプを見る><cmd:/skhelp on-can-build-check>&aOn Can Build Check<reset>"
-			message "<ttp:On Chatのヘルプを見る><cmd:/skhelp on-chat>&aOn Chat<reset>"
-			message "<ttp:On Chunk Generateのヘルプを見る><cmd:/skhelp on-chunk-generate>&aOn Chunk Generate<reset>"
-			message "&6次のページに行くには<ttp:ヘルプ4ページ目を表示><cmd:/skhelp 4>/skhelp 4<reset>&6と入力してください"
-		else if arg 1 is "4":
-			message "&6前のページに行くには<ttp:ヘルプ3ページ目を表示><cmd:/skhelp 3>/skhelp 3<reset>&6と入力してください"
-			message "<ttp:On Chunk Loadのヘルプを見る><cmd:/skhelp on-chunk-load>&aOn Chunk Load<reset>"
-			message "<ttp:On Chunk Unloadのヘルプを見る><cmd:/skhelp on-chunk-unload>&aOn Chunk Unload<reset>"
-			message "<ttp:On Clickのヘルプを見る><cmd:/skhelp on-click>&aOn Click<reset>"
-			message "<ttp:On Combustのヘルプを見る><cmd:/skhelp on-combust>&aOn Combust<reset>"
-			message "<ttp:On Commandのヘルプを見る><cmd:/skhelp on-command>&aOn Command<reset>"
-			message "<ttp:On Connectのヘルプを見る><cmd:/skhelp on-connect>&aOn Connect<reset>"
-			message "<ttp:On Consumeのヘルプを見る><cmd:/skhelp on-consume>&aOn Consume<reset>"
-			message "<ttp:On Craftのヘルプを見る><cmd:/skhelp on-craft>&aOn Craft<reset>"
-			message "&6次のページに行くには<ttp:ヘルプ5ページ目を表示><cmd:/skhelp 5>/skhelp 5<reset>&6と入力してください"
-		else if arg 1 is "5":
-			message "&6前のページに行くには<ttp:ヘルプ4ページ目を表示><cmd:/skhelp 4>/skhelp 4<reset>&6と入力してください"
-			message "<ttp:On Creeper Powerのヘルプを見る><cmd:/skhelp on-creeper-power>&aOn Creeper Power<reset>"
-			message "<ttp:On Damageのヘルプを見る><cmd:/skhelp on-damage>&aOn Damage<reset>"
-			message "<ttp:On Deathのヘルプを見る><cmd:/skhelp on-death>&aOn Death<reset>"
-			message "<ttp:On Dispenseのヘルプを見る><cmd:/skhelp on-dispense>&aOn Dispense<reset>"
-			message "<ttp:On Dropのヘルプを見る><cmd:/skhelp on-drop>&aOn Drop<reset>"
-			message "<ttp:On Endermanのヘルプを見る><cmd:/skhelp on-enderman>&aOn Enderman<reset>"
-			message "<ttp:On Entity Dismountのヘルプを見る><cmd:/skhelp on-entity-dismout>&aOn Entity Dismount<reset>"
-			message "<ttp:On Entity Mountのヘルプを見る><cmd:/skhelp on-entity-mount>&aOn Entity Mount<reset>"
-			message "&6次のページに行くには<ttp:ヘルプ6ページ目を表示><cmd:/skhelp 6>/skhelp 6<reset>&6と入力してください"
-		else if arg 1 is "6":
-			message "&6前のページに行くには<ttp:ヘルプ5ページ目を表示><cmd:/skhelp 5>/skhelp 5<reset>&6と入力してください"
-			message "<ttp:On Experience Spawnのヘルプを見る><cmd:/skhelp on-experience-spawn>&aOn Experience Spawn<reset>"
-			message "<ttp:On Explodeのヘルプを見る><cmd:/skhelp on-explode>&aOn Explode<reset>"
-			message "<ttp:On Explosion Primeのヘルプを見る><cmd:/skhelp on-explosion-prime>&aOn Explosion Prime<reset>"
-			message "<ttp:On First Joinのヘルプを見る><cmd:/skhelp on-first-join>&aOn First Join<reset>"
-			message "<ttp:On Fishingのヘルプを見る><cmd:/skhelp on-fishing>&aOn Fishing<reset>"
-			message "<ttp:On Flight Toggleのヘルプを見る><cmd:/skhelp on-flight-toggle>&aOn Flight Toggle<reset>"
-			message "<ttp:On Flowのヘルプを見る><cmd:/skhelp on-flow>&aOn Flow<reset>"
-			message "<ttp:On Formのヘルプを見る><cmd:/skhelp on-form>&aOn Form<reset>"
-			message "&6次のページに行くには<ttp:ヘルプ7ページ目を表示><cmd:/skhelp 7>/skhelp 7<reset>&6と入力してください"
-		else if arg 1 is "7":
-			message "&6前のページに行くには<ttp:ヘルプ6ページ目を表示><cmd:/skhelp 6>/skhelp 6<reset>&6と入力してください"
-			message "<ttp:On Fuel Burnのヘルプを見る><cmd:/skhelp on-fuel-burn>&aOn Fuel Burn<reset>"
-			message "<ttp:On Gamemode Changeのヘルプを見る><cmd:/skhelp on-gamemode-change>&aOn Gamemode Change<reset>"
-			message "<ttp:On Explosion Primeのヘルプを見る><cmd:/skhelp on-explosion-prime>&aOn Explosion Prime<reset>"
-			message "<ttp:On Gliding State Changeのヘルプを見る><cmd:/skhelp on-gliding-state-change>&aOn Gliding State Change<reset>"
-			message "<ttp:On Growのヘルプを見る><cmd:/skhelp on-grow>&aOn Grow<reset>"
-			message "<ttp:On Hand Item Swapのヘルプを見る><cmd:/skhelp on-hand-item-swap>&aOn Hand Item Swap<reset>"
-			message "<ttp:On Healのヘルプを見る><cmd:/skhelp on-heal>&aOn heal<reset>"
-			message "<ttp:On Hunger Meter Changeのヘルプを見る><cmd:/skhelp on-hunger-meter-change>&aOn Hunger Meter Change<reset>"
-			message "&6次のページに行くには<ttp:ヘルプ8ページ目を表示><cmd:/skhelp 8>/skhelp 8<reset>&6と入力してください"
-		else if arg 1 is "8":
-			message "&6前のページに行くには<ttp:ヘルプ7ページ目を表示><cmd:/skhelp 7>/skhelp 7<reset>&6と入力してください"
-			message "<ttp:On lgnitionのヘルプを見る><cmd:/skhelp on-lgnition>&aOn lgnition<reset>"
-			message "<ttp:On Inventory Clickのヘルプを見る><cmd:/skhelp on-inventory-click>&aOn Inventory Click<reset>"
-			message "<ttp:On Inventory Closeのヘルプを見る><cmd:/skhelp on-inventory-close>&aOn Inventory Close<reset>"
-			message "<ttp:On Inventory Openのヘルプを見る><cmd:/skhelp on-inventory-open>&aOn Inventory Open<reset>"
-			message "<ttp:On Item Breakのヘルプを見る><cmd:/skhelp on-item-break>&aOn Item Break<reset>"
-			message "<ttp:On Item Despawnのヘルプを見る><cmd:/skhelp on-item-despawn>&aOn Item Despawn<reset>"
-			message "<ttp:On Item Mergeのヘルプを見る><cmd:/skhelp on-item-merge>&aOn Item Merge<reset>"
-			message "<ttp:On Item Spawnのヘルプを見る><cmd:/skhelp on-item-spawn>&aOn Item Spawn<reset>"
-			message "&6次のページに行くには<ttp:ヘルプ9ページ目を表示><cmd:/skhelp 9>/skhelp 9<reset>&6と入力してください"
-		else if arg 1 is "9":
-			message "&6前のページに行くには<ttp:ヘルプ8ページ目を表示><cmd:/skhelp 8>/skhelp 8<reset>&6と入力してください"
-			message "<ttp:On Joinのヘルプを見る><cmd:/skhelp on-join>&aOn Join<reset>"
-			message "<ttp:On Jumpのヘルプを見る><cmd:/skhelp on-jump>&aOn Jump<reset>"
-			message "<ttp:On Kickのヘルプを見る><cmd:/skhelp on-kick>&aOn Kick<reset>"
-			message "<ttp:On Language Changeのヘルプを見る><cmd:/skhelp on-language-change>&aOn Language Change<reset>"
-			message "<ttp:On Leaves Decayのヘルプを見る><cmd:/skhelp on-leaves-decay>&aOn Leaves Decay<reset>"
-			message "<ttp:On Level Changeのヘルプを見る><cmd:/skhelp on-level-change>&aOn Level Change<reset>"
-			message "<ttp:On Lightning Strikeのヘルプを見る><cmd:/skhelp on-lightning-strike>&aOn Lightning Strike<reset>"
-			message "<ttp:On Move Onのヘルプを見る><cmd:/skhelp on-move-on>&aOn Move On<reset>"
-			message "&6次のページに行くには<ttp:ヘルプ10ページ目を表示><cmd:/skhelp 10>/skhelp 10<reset>&6と入力してください"
-			#L>M>N
-			#message "<ttp:On Mineのヘルプを見る><cmd:/skhelp on-mine&aOn Mine<reset>"
-			#R>S>T
-			#message "<ttp:On Sheepのヘルプを見る><cmd:/skhelp on-sheep>&aOn Sheep<reset>"
-			#message "<ttp:On Silverfishのヘルプを見る><cmd:/skhelp on-silverfish>&aOn Silverfish<reset>"
-		else if arg 1 is "at-time":
-			message "&6SkriptHelp-At Time"
-			message "&aイベント"
-			message "&bat time [in worlds]"
-			message "&7バージョン1.3.4から"
-			message "&eAn event that occurs at a given minecraft time in every world or only in specific worlds. "
-			message "&cat 18:00"
-			message "&cat 7am in ""world"""
-		else if arg 1 is "on-aoe-cloud-effect":
-			message "&6SkriptHelp-On AoE Cloud Effect"
-			message "&aイベント"
-			message "&b(area|AoE) [cloud] effect"
-			message "&7バージョン2.2-dev21から"
-			message "&eCalled when area effect cloud applies it's potion effect. This happens every 5 ticks by default. "
-			message "&c on area cloud effect:"
-		else if arg 1 is "on-bed-enter":
-			message "&6SkriptHelp-On Bed Enter"
-			message "&aイベント"
-			message "&Bbed enter[ing]"
-			message "&b[player] enter[ing] [a] bed"
-			message "&7バージョン1.0から"
-			message "&eCalled when a player starts sleeping. "
-			message "&con bed enter:"
-		else if arg 1 is "on-bed-leave":
-			message "&6SkriptHelp-On Bed Leave"
-			message "&aイベント"
-			message "&Bbed leav(e|ing)"
-			message "&b[player] leav(e|ing) [a] bed"
-			message "&7バージョン1.0から"
-			message "&eCalled when a player leaves a bed. "
-			message "&con bed leaving a bed:"
-		else if arg 1 is "on-block-damage":
-			message "&6SkriptHelp-On Block Damage"
-			message "&aイベント"
-			message "&Bblock damag(ing|e)"
-			message "&7バージョン1.0から"
-			message "&eCalled when a player starts to break a block. You can usually just use the leftclick event for this. "
-			message "&con block damaging:"
-			message "&c()if block id log:"
-			message "&c()()send ""You can't break the holy log!"""
+		message "&7[&askdocs&7] &f%player%(%uuid of player%)&aがコマンド&f/skdocs %arg-1% %arg-2%&aを実行しました" to console
+		if arg-1 is "events":
+			if arg-2 is set:
+				set {_page} to arg-2 parsed as integer
+			else:
+				set {_page} to 1
+			message "&aイベントリスト(&f%{_page}%&a-&f%{_page} + 7%&a/&f%amount of {skdocs::events::*}%&a)"
+			loop {skdocs::events::*}:
+				if loop-index is "%{_page}%" or "%{_page} + 1%" or "%{_page} + 2%" or "%{_page} + 3%" or "%{_page} + 4%" or "%{_page} + 5%" or "%{_page} + 6%" or "%{_page} + 7%":
+					send formatted "<ttp:%loop-value%><cmd:/skdocs id %loop-value%>%loop-value%<reset>"
+			send formatted "<ttp:前のページ><cmd:/skdocs %arg-1% %{_page} - 8%>&6<--<reset>     <ttp:次のページ><cmd:/skdocs %arg-1% %{_page} + 8%>&6--><reset>"
+		else if arg-1 is "conditions":
+			if arg-2 is set:
+				set {_page} to arg-2 parsed as integer
+			else:
+				set {_page} to 1
+			message "&aコンディションリスト(&f%{_page}%&a-&f%{_page} + 7%&a/&f%amount of {skdocs::conditions::*}%&a)"
+			loop {skdocs::conditions::*}:
+				if loop-index is "%{_page}%" or "%{_page} + 1%" or "%{_page} + 2%" or "%{_page} + 3%" or "%{_page} + 4%" or "%{_page} + 5%" or "%{_page} + 6%" or "%{_page} + 7%":
+					send formatted "<ttp:%loop-value%><cmd:/skdocs id %loop-value%>%loop-value%<reset>"
+			send formatted "<ttp:前のページ><cmd:/skdocs %arg-1% %{_page} - 8%>&6<--<reset>     <ttp:次のページ><cmd:/skdocs %arg-1% %{_page} + 8%>&6--><reset>"
+		else if arg-1 is "effects":
+			if arg-2 is set:
+				set {_page} to arg-2 parsed as integer
+			else:
+				set {_page} to 1
+			message "&aエフェクトリスト(&f%{_page}%&a-&f%{_page} + 7%&a/&f%amount of {skdocs::effects::*}%&a)"
+			loop {skdocs::effects::*}:
+				if loop-index is "%{_page}%" or "%{_page} + 1%" or "%{_page} + 2%" or "%{_page} + 3%" or "%{_page} + 4%" or "%{_page} + 5%" or "%{_page} + 6%" or "%{_page} + 7%":
+					send formatted "<ttp:%loop-value%><cmd:/skdocs id %loop-value%>%loop-value%<reset>"
+			send formatted "<ttp:前のページ><cmd:/skdocs %arg-1% %{_page} - 8%>&6<--<reset>     <ttp:次のページ><cmd:/skdocs %arg-1% %{_page} + 8%>&6--><reset>"
+		else if arg-1 is "expressions":
+			if arg-2 is set:
+				set {_page} to arg-2 parsed as integer
+			else:
+				set {_page} to 1
+			message "&aエクスプレッションリスト(&f%{_page}%&a-&f%{_page} + 7%&a/&f%amount of {skdocs::expressions::*}%&a)"
+			loop {skdocs::expressions::*}:
+				if loop-index is "%{_page}%" or "%{_page} + 1%" or "%{_page} + 2%" or "%{_page} + 3%" or "%{_page} + 4%" or "%{_page} + 5%" or "%{_page} + 6%" or "%{_page} + 7%":
+					send formatted "<ttp:%loop-value%><cmd:/skdocs id %loop-value%>%loop-value%<reset>"
+			send formatted "<ttp:前のページ><cmd:/skdocs %arg-1% %{_page} - 8%>&6<--<reset>     <ttp:次のページ><cmd:/skdocs %arg-1% %{_page} + 8%>&6--><reset>"
+		else if arg-1 is "types":
+			if arg-2 is set:
+				set {_page} to arg-2 parsed as integer
+			else:
+				set {_page} to 1
+			message "&aタイプリスト(&f%{_page}%&a-&f%{_page} + 7%&a/&f%amount of {skdocs::types::*}%&a)"
+			loop {skdocs::types::*}:
+				if loop-index is "%{_page}%" or "%{_page} + 1%" or "%{_page} + 2%" or "%{_page} + 3%" or "%{_page} + 4%" or "%{_page} + 5%" or "%{_page} + 6%" or "%{_page} + 7%":
+					send formatted "<ttp:%loop-value%><cmd:/skdocs id %loop-value%>%loop-value%<reset>"
+			send formatted "<ttp:前のページ><cmd:/skdocs %arg-1% %{_page} - 8%>&6<--<reset>     <ttp:次のページ><cmd:/skdocs %arg-1% %{_page} + 8%>&6--><reset>"
+		else if arg-1 is "functions":
+			if arg-2 is set:
+				set {_page} to arg-2 parsed as integer
+			else:
+				set {_page} to 1
+			message "&aファンクションリスト(&f%{_page}%&a-&f%{_page} + 7%&a/&f%amount of {skdocs::functions::*}%&a)"
+			loop {skdocs::functions::*}:
+				if loop-index is "%{_page}%" or "%{_page} + 1%" or "%{_page} + 2%" or "%{_page} + 3%" or "%{_page} + 4%" or "%{_page} + 5%" or "%{_page} + 6%" or "%{_page} + 7%":
+					send formatted "<ttp:%loop-value%><cmd:/skdocs id %loop-value%>%loop-value%<reset>"
+			send formatted "<ttp:前のページ><cmd:/skdocs %arg-1% %{_page} - 8%>&6<--<reset>     <ttp:次のページ><cmd:/skdocs %arg-1% %{_page} + 8%>&6--><reset>"
+		else if arg-1 is "id":
+			if arg-2 is set:
+				message "&7[&askdocs&7] &aAPIから&f%arg-2%&aの情報を取得しています..."
+				# set {_response} to text from "{@api_url}get_element/for-skript/?id=%arg-2%"
+				send request to url "{@api_url}get_element/for-skript/?id=%arg-2%"
+				set {_response} to last received response's body
+				message "&7[&askdocs&7] &a情報を取得しました。"
+				set {_responses::*} to {_response} split at "<br>"
+				loop {_responses::*}:
+					set {_res::*} to loop-value split at "[:]"
+					set {_c} to 0
+					loop {_res::*}:
+						if {_c} is 0:
+							message "&a&l%loop-value-2%"
+						else:
+							set {_resp::*} to loop-value-2 split at "[newline]"
+							loop {_resp::*}:
+								message loop-value-3
+						set {_c} to {_c} + 1
+			else:
+				message "&c/skdocs id <id>"
+		else if arg-1 is "reload":
+			if player has permission "skdocs.reload":
+				send "&f%script name%.sk&aを再読み込みしています"
+				command "/skript:skript reload %script name%"
+				send "&aスクリプトを再読み込みしました"
+			else:
+				send "&c権限&6skdocs.reload&cが必要です"
+		else if arg-1 is not set:
+			send formatted "&cヘルプ&r:<ttp:クリックで補完><sgt:/skdocs help>&c/skdocs help<reset>"
+		else if arg-1 is "help":
+			if arg-2 is not set:
+				send "&aコマンド一覧"
+				send "&aカーソル&fを合わすと説明が見れます &aクリック&fするとコマンドを補完します"
+				send formatted "<ttp:&b/skdocs events%nl%&fイベントの一覧を表示します><sgt:/skdocs events>&c/skdocs events<reset>"
+				send formatted "<ttp:&b/skdocs conditions%nl%&fコンディションの一覧を表示します><sgt:/skdocs conditions>&c/skdocs conditions<reset>"
+				send formatted "<ttp:&b/skdocs effects%nl%&fエフェクトの一覧を表示します><sgt:/skdocs effects>&c/skdocs effects<reset>"
+				send formatted "<ttp:&b/skdocs expressions%nl%&fエクスプレッションの一覧を表示します><sgt:/skdocs expressions>&c/skdocs expressions<reset>"
+				send formatted "<ttp:&b/skdocs types%nl%&fタイプの一覧を表示します><sgt:/skdocs types>&c/skdocs types<reset>"
+				send formatted "<ttp:&b/skdocs functions%nl%&fファンクションの一覧を表示します><sgt:/skdocs functions>&c/skdocs functions<reset>"
+				send formatted "<ttp:&b/skdocs id <id>%nl%&f指定したIDの情報を表示します><sgt:/skdocs id >&c/skdocs id <id><reset>"
+				send formatted "<ttp:&b/skdocs help [command]%nl%&fコマンドのヘルプを表示します><sgt:/skdocs help >&c/skdocs help [command]<reset>"
+				send formatted "<ttp:&b/skdocs reload%nl%&c権限&6skdocs.reload&cが必要です%nl%&fスクリプト(%script name%.sk)を再読み込みします><sgt:/skdocs reload>&c/skdocs reload<reset>"
+			else if arg-2 is "events":
+				send "&b/skdocs events"
+				send "&fイベントの一覧を表示します"
+				send formatted "<cmd:/skdocs events>&aクリックでコマンドを実行<reset>"
+			else if arg-2 is "conditions":
+				send "&b/skdocs conditions"
+				send "&fコンディションの一覧を表示します"
+				send formatted "<cmd:/skdocs conditions>&aクリックでコマンドを実行<reset>"
+			else if arg-2 is "effects":
+				send "&b/skdocs effects"
+				send "&fエフェクトの一覧を表示します"
+				send formatted "<cmd:/skdocs effects>&aクリックでコマンドを実行<reset>"
+			else if arg-2 is "expressions":
+				send "&b/skdocs expressions"
+				send "&fエクスプレッションの一覧を表示します"
+				send formatted "<cmd:/skdocs expressions>&aクリックでコマンドを実行<reset>"
+			else if arg-2 is "types":
+				send "&b/skdocs types"
+				send "&fタイプの一覧を表示します"
+				send formatted "<cmd:/skdocs types>&aクリックでコマンドを実行<reset>"
+			else if arg-2 is "functions":
+				send "&b/skdocs functions"
+				send "&fファンクションの一覧を表示します"
+				send formatted "<cmd:/skdocs functions>&aクリックでコマンドを実行<reset>"
+			else if arg-2 is "id":
+				send "&b/skdocs id <id>"
+				send "&f指定したのIDを表示します"
+				send formatted "<sgt:/skdocs id >&aクリックでコマンドを実行<reset>"
+			else if arg-2 is "help":
+				send "&b/skdocs help [command]"
+				send "&fコマンドのヘルプを表示します"
+				send formatted "<cmd:/skdocs help>&aクリックでコマンドを実行<reset>"
+			else if arg-2 is "reload":
+				send "&b/skdocs reload"
+				send "&c権限&6skdocs.reload&cが必要です"
+				send "&fスクリプト(%script name%.sk)を再読み込みします"
+				send formatted "<cmd:/skdocs reload>&aクリックでコマンドを実行<reset>"
+			else:
+				send "&cコマンドは見つかりませんでした"
 		else:
-			message "&6SkriptHelp-Error404"
-			message "&c%arg 1%が見つかりません。まだ追加されていないか、そのような文がありません。"
+			send "&cコマンドは見つかりませんでした ヘルプ:<ttp:クリックで補完><sgt:/skdocs help>/skdocs help<reset>"
+on script load:
+	clear {skdocs::*}
+	message "&7[&askdocs&7] &aAPIから情報を取得しています..." to console
+	send request to url "{@api_url}skript/"
+	set {_response} to last received response's body
+	set {_a::*} to {_response} split at "<br>"
+	set {_c} to 0
+	loop {_a::*}:
+		if {_c} is 0:
+			set {skdocs::update::version} to loop-value
+		else:
+			set {skdocs::update::link} to loop-value
+		set {_c} to {_c} + 1
+
+	send request to url "{@api_url}get_all/for-skript/"
+	set {_response} to last received response's body
+	set {_types::*} to {_response} split at "<hr>"
+	loop {_types::*}: #loop-value
+		set {_res::*} to loop-value split at "<br>"
+		loop {_res::*}: #loop-value-2
+			set {_a::*} to loop-value-2 split at ":"
+			add {_a::2} to {skdocs::%{_a::1}%::*}
+			if "{@debug_logging}" is "true":
+				message "&7[&askdocs&7] &a%{_a::2}%をskdocs::%{_a::1}%::*に追加しました" to console
+				wait 1 tick
+	if {skdocs::*} is set:
+		message "&7[&askdocs&7] &a情報を取得しました。" to console
+		if {skdocs::update::version} is not "{@version}":
+			message "&7[&askdocs&7] &a新しいバージョン%{skdocs::update::version}%があります！(リンク:%{skdocs::update::link}%)" to console
+
+		stop
+	else:
+		message "&7[&askdocs&7] &c情報の取得に失敗しました。10秒後に再接続します。" to console
+
+	wait 10 seconds
+
+	clear {skdocs::*}
+	send request to url "{@api_url}skript/"
+	set {_response} to last received response's body
+	set {_a::*} to {_response} split at "<br>"
+	set {_c} to 0
+	loop {_a::*}:
+		if {_c} is 0:
+			set {skdocs::update::version} to loop-value
+		else:
+			set {skdocs::update::link} to loop-value
+		set {_c} to {_c} + 1
+
+	message "&7[&askdocs&7] &aAPIから情報を取得しています..." to console
+	set {_response} to text from "{@api_url}get_all/for-skript/"
+	set {_types::*} to {_response} split at "<hr>"
+	loop {_types::*}: #loop-value
+		set {_res::*} to loop-value split at "<br>"
+		loop {_res::*}: #loop-value-2
+			#message loop-value-2 to console
+			set {_a::*} to loop-value-2 split at ":"
+			add {_a::2} to {skdocs::%{_a::1}%::*}
+			if "{@debug_logging}" is "true":
+				message "&7[&askdocs&7] &a%{_a::2}%をskdocs::%{_a::1}%::*に追加しました" to console
+				wait 1 tick
+	if {skdocs::*} is set:
+		message "&7[&askdocs&7] &a情報を取得しました。" to console
+		if {skdocs::update::version} is not "{@version}":
+			message "&7[&askdocs&7] &a新しいバージョン%{skdocs::update::version}%があります！(リンク:%{skdocs::update::link}%)" to console
+	else:
+		message "&7[&askdocs&7] &c情報の取得に失敗しました。" to console
+		message "&7[&askdocs&7] &cAPIのURLが合っていないまたはAPI/サーバー側でエラーが発生している可能性があります。" to console
+		message "&7[&askdocs&7] &cエラーログを表示します。改善しない場合はDiscord ik##3078までご報告ください。" to console
+		message "&7[&askdocs&7] &cエラー:&6API_RESPONSE_IS_NOTSET" to console
+		
+		message "&7[&askdocs&7] &cAPIのURL:&6{@api_url}" to console
+		message "&7[&askdocs&7] &c接続したURL:&6{@api_url}get_all/for-skript/" to console
+		message "&7[&askdocs&7] &c発生時刻:&6%now%" to console
+		message "&7[&askdocs&7] &cサーバーのバージョン:&6%bukkit version%&c(&6MC v.%minecraft version%&c)" to console
+		message "&7[&askdocs&7] &cSkriptのバージョン:&6%skript version%" to console
